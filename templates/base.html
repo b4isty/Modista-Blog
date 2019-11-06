@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% block title %} <title>Modista Blog</title> {% endblock title %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+</head>
+
+{% block css %}
+{% endblock %}
+
+    <body>
+    {% include 'snippets/header.html' %}
+
+    <div class="container">
+        <div class="row">
+            {% block body %}
+            {% endblock %}
+
+        </div>
+    </div>
+
+
+    {% include 'snippets/footer.html' %}
+    {% block js %}
+    {% endblock %}
+
+
+    </body>
+</html>

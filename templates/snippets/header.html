@@ -1,0 +1,27 @@
+{% load static %}
+<header>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="">Modista Blog</a>
+
+        </div>
+             {% if request.user.is_authenticated %}
+                <ul class="nav navbar-nav">
+                    <li><a href="">Blogs</a></li>
+                    <li><a href="">Create Blog</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{% url 'users:logout' %}"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+                </ul>
+
+            {% else %}
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{% url 'users:signup' %}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                    <li><a href="{% url 'users:login'%}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                </ul>
+            {% endif %}
+        </div>
+    </nav>
+
+</header>
