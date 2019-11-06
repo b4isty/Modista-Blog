@@ -1,3 +1,5 @@
+from django.db.models import Q
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.views.generic import CreateView, ListView
 from django.contrib.auth import mixins
@@ -41,6 +43,14 @@ class BlogList(mixins.LoginRequiredMixin, ListView):
     login_url = '/login/'
     template_name = 'blog/blog_list.html'
 
-    
 
+# def search_view(request):
+#     """Function for search blogs"""
+#     if request.is_ajax():
+#         query = request.GET.get("word", "")
+#         print(query)
+#         blog_list = Post.objects.filter(Q(title__icontains=query) | Q(content__icontains=query))
+#         print("***",blog_list)
+#         return JsonResponse({"data": blog_list}, safe=False)
+#     return JsonResponse({"error": "Bad Request"}, status=400)
 

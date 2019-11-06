@@ -5,20 +5,62 @@
         body {
             background-color: lavender;
         }
-<!--        .jumbotron {-->
-<!--            background-color: lightblue;-->
-<!--        }-->
+
         .list-group a.list-group-item:hover {
             background-color: #1b8dbb;
         }
     </style>
 <div style="float:right">
-<form>
-    <input type="text" style="width:250px">
-    <input type="submit" value="search">
-</form>
+    <form>
+        <input type="text" size="80"id='word' name="word" onkeyup="find()" style="width:250px">
+
+    </form>
+    <div id="suggestions" style="text-align: left;">
+
+    </div>
 </div>
 <br><br>
+
+
+
+<script type="text/javascript">
+
+
+    $(document).ready(function(){
+        $('#word').on('keyup', function(e){
+           var word=e.target.value;
+           console.log(word)
+           if(word.length>1){
+               callAjax(word, function(data){
+<!--                 console.log(data);-->
+                 renderSuggestions(data);
+               });
+           };
+        });
+    });
+    function choose(word){
+        $('#word').val(word);
+        $('#suggestions').empty();
+    }
+    function renderSuggestions(data){
+        $('#suggestions').empty();
+        data.forEach(function(word,index){
+            //console.log(word,index);
+            $('#suggestions').append("<div onClick=\"choose('"+word+"');\">"+word+"</div>");
+        });
+    }
+    function callAjax(word, resp){
+        $.ajax({
+             url: "/search/",
+             data: { word: word },
+             type: "GET",
+             success: function(data) {
+                resp(data.data);
+                console.log(data.data)
+             }
+          });
+    }
+</script>
 
 
 <div class="container" style="text-allign:center">
@@ -61,19 +103,5 @@
 </div>
 
 
-<!--    {% if is_paginated %}-->
-<!--        <div class="pagination">-->
-<!--                <span class="page-links">-->
-<!--                    {% if page_obj.has_previous %}-->
-<!--                        <a href="?page={{ page_obj.previous_page_number }}"> << Previous</a>-->
-<!--                    {% endif %}-->
-<!--                    {% if page_obj.has_next %}-->
 
-<!--                        <a href="?page={{ page_obj.next_page_number }}">Next >></a>-->
-
-<!--                    {% endif %}-->
-<!--                </span>-->
-<!--        </div>-->
-<!--    {% endif %}-->
-<br>
 {% endblock %}
