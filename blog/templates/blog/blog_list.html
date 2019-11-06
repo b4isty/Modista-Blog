@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block head_title %}Blog List|{{ block.super }}{% endblock head_title %}
+{% block body %}
+    <style>
+        body {
+            background-color: lavender;
+        }
+<!--        .jumbotron {-->
+<!--            background-color: lightblue;-->
+<!--        }-->
+        .list-group a.list-group-item:hover {
+            background-color: #1b8dbb;
+        }
+    </style>
+<div style="float:right">
+<form>
+    <input type="text" style="width:250px">
+    <input type="submit" value="search">
+</form>
+</div>
+<br><br>
+
+
+<div class="container" style="text-allign:center">
+    <h2 style="text-align:center">Blogs </h2>
+        {% for post in object_list %}
+
+          <div class="col-11 col-lg-7 ml-auto mr-auto order-3">
+              <div class="card-body">
+                    <h5 class="card-title" style="font-size:40px"><b>{{post.title}}</b></a>
+                        <h6 class="card-subtitle mb-2 text-muted">Author: {{post.author}}</h6>
+                    </h5>
+                    <p class="card-text" style="font-family: 'Lora'">{{post.content}}</p>
+              </div>
+          </div>
+        {% endfor %}
+</div>
+<div style="margin-top:150px; margin-left:400px">
+    {% if is_paginated %}
+      <ul class="pagination">
+        {% if page_obj.has_previous %}
+          <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+        {% else %}
+          <li class="disabled"><span>&laquo;</span></li>
+        {% endif %}
+        {% for i in paginator.page_range %}
+          {% if page_obj.number == i %}
+            <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+          {% else %}
+            <li><a href="?page={{ i }}">{{ i }}</a></li>
+          {% endif %}
+        {% endfor %}
+        {% if page_obj.has_next %}
+          <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+        {% else %}
+          <li class="disabled"><span>&raquo;</span></li>
+        {% endif %}
+      </ul>
+    {% endif %}
+
+</div>
+
+
+<!--    {% if is_paginated %}-->
+<!--        <div class="pagination">-->
+<!--                <span class="page-links">-->
+<!--                    {% if page_obj.has_previous %}-->
+<!--                        <a href="?page={{ page_obj.previous_page_number }}"> << Previous</a>-->
+<!--                    {% endif %}-->
+<!--                    {% if page_obj.has_next %}-->
+
+<!--                        <a href="?page={{ page_obj.next_page_number }}">Next >></a>-->
+
+<!--                    {% endif %}-->
+<!--                </span>-->
+<!--        </div>-->
+<!--    {% endif %}-->
+<br>
+{% endblock %}

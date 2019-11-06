@@ -13,7 +13,11 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ('created_at',)
+        """
+        Pagination is intended to work for ordered queryset
+        so here ordering it by default to avoid using order_by method everywhere
+        """
+        ordering = ('-created_at',)
 
     def __str__(self):
         return self.title
