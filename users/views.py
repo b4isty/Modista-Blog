@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect
+from django.urls import reverse_lazy
 from django.views.generic import CreateView
 
 from users.utils import get_jwt_token
@@ -13,7 +14,7 @@ class SignUpView(CreateView):
     """ View for Signup """
     form_class = SignUpForm
     template_name = 'users/signup.html'
-    success_url = '/'
+    success_url = reverse_lazy('blog:home')
 
     def dispatch(self, request, *args, **kwargs):
         """ Overriding dispatch method to redirect authenticated user to login page """
@@ -26,7 +27,7 @@ class Login(LoginView):
     """ View for Login """
     model = User
     template_name = 'users/login.html'
-    success_url = '/blog/list/'
+    success_url = reverse_lazy('blog:list')
 
     def get(self, request, *args, **kwargs):
         """
@@ -41,5 +42,5 @@ class Login(LoginView):
         resp = super(Login, self).post(request, *args, **kwargs)
         if request.user.is_authenticated:
             token = get_jwt_token(request.user)
-            resp.set_cookie(key="token", value=token,  )
+            resp.set_cookie(key="token", value=token, )
         return resp

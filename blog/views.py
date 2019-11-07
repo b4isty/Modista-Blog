@@ -1,7 +1,7 @@
 from django.contrib.auth import mixins
 from django.db.models import Q
 from django.shortcuts import redirect, render
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
@@ -24,12 +24,12 @@ class CreateBlog(mixins.LoginRequiredMixin, CreateView):
     model = Post
     fields = ['title', 'content', ]
     template_name = 'blog/create_blog.html'
-    success_url = '/blog/list'
-    login_url = '/login/'
+    success_url = reverse_lazy('blog:list')
+    login_url = reverse_lazy('users:login')
 
     def form_valid(self, form):
         """
-        overriding form validation method to set author
+        Overriding form validation method to set author
         to the instance before writing to database
         """
         instance = form.save(commit=False)
@@ -42,7 +42,7 @@ class BlogList(mixins.LoginRequiredMixin, ListView):
     """View for show all the blogs"""
     model = Post
     paginate_by = 5
-    login_url = '/login/'
+    login_url = reverse_lazy('users:login')
     template_name = 'blog/blog_list.html'
 
     def get_queryset(self):
@@ -81,7 +81,7 @@ class MyBlogs(mixins.LoginRequiredMixin, ListView):
     """
     model = Post
     template_name = "blog/my_blogs.html"
-    login_url = '/login/'
+    login_url = reverse_lazy('users:login')
     paginate_by = 3
 
     def get_queryset(self):
@@ -93,17 +93,17 @@ class BlogUpdateView(mixins.LoginRequiredMixin, UpdateView):
     model = Post
     fields = ['title', 'content']
     template_name = 'blog/edit_blog.html'
-    success_url = '/my-blog/'
+    success_url = reverse_lazy('blog:myblog')
 
     def get_queryset(self):
         """Overriding this method to show only authenticated user blog"""
-        return  super(BlogUpdateView, self).get_queryset().filter(author=self.request.user)
+        return super(BlogUpdateView, self).get_queryset().filter(author=self.request.user)
 
 
 class DeleteBlog(mixins.LoginRequiredMixin, DeleteView):
     """View to delete blog posted by authenticated user"""
     model = Post
-    success_url = '/my-blog/'
+    success_url = reverse_lazy('blog:myblog')
 
     def get_queryset(self):
         """Overriding this method to filter using authenticated user"""
