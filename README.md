@@ -16,7 +16,7 @@ source myvenv/bin/activate
 ```
 Clone this repo
 ```bash
-git clone 
+git clone https://github.com/b4isty/Modista-Blog
 
 ```
 Install dependencies
