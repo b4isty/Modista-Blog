@@ -8,9 +8,18 @@
         </div>
              {% if request.user.is_authenticated %}
                 <ul class="nav navbar-nav">
-                    <li><a href="">Blogs</a></li>
-                    <li><a href="">Create Blog</a></li>
+                    <li><a href="{% url 'blog:list' %}">Blogs</a></li>
+                    <li><a href="{% url 'blog:create' %}">Create Blog</a></li>
+                    <li><a href="{% url 'blog:myblog' %}">My Blogs</a></li>
                 </ul>
+                <form class="navbar-form navbar-left" action="{% url 'blog:list' %}" method="GET">
+                    <div class="form-group" style="width: 450px;">
+                        <input type="text" id="search" style="width: 350px;" name="q" class="form-control" placeholder="Search">
+                        <button type="submit" class="btn btn-primary">Search</button><br/>
+                        <div id="suggestions"></div>
+                    </div>
+                </form>
+
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="{% url 'users:logout' %}"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
                 </ul>
@@ -23,5 +32,26 @@
             {% endif %}
         </div>
     </nav>
-
 </header>
+<style>
+    #suggestions {
+        text-align: left;
+        position: absolute;
+        display: block;
+        background: white;
+        z-index: 999;
+        padding-top: 3px;
+        padding-left: 3px;
+        padding-right: 3px;
+    }
+    #suggestions div{
+        cursor: pointer;
+        padding: 3px;
+        font-weight: normal;
+        background: white;
+    }
+    #suggestions div:hover{
+        /* font-weight: bold; */
+        background: floralwhite;
+    }
+</style>

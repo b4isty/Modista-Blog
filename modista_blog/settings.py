@@ -39,8 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    # third party
+    'rest_framework',
     'bootstrapform',
+
+
+    # local
     'users',
     'blog',
 
@@ -87,6 +91,7 @@ DATABASES = {
     }
 }
 
+# Rest Framework configurations
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
@@ -156,7 +161,7 @@ JWT_AUTH = {
     'JWT_VERIFY': True,
     'JWT_VERIFY_EXPIRATION': True,
     'JWT_LEEWAY': 0,
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=300),
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=2),
     'JWT_AUDIENCE': None,
     'JWT_ISSUER': None,
 

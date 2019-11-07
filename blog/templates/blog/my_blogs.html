@@ -19,9 +19,17 @@
           <div class="col-11 col-lg-7 ml-auto mr-auto order-3">
               <div class="card-body">
                     <h5 class="card-title" style="font-size:40px"><b>{{post.title}}</b></a>
-                        <h6 class="card-subtitle mb-2 text-muted">Author: {{post.author}}</h6>
                     </h5>
                     <p class="card-text" style="font-family: 'Lora'">{{post.content}}</p>
+              </div>
+              <div>
+                  <a href="{% url 'blog:edit' post.id %}"><button class="btn btn-info">Edit</button></a>
+                  <div class="col-sm-2">
+                  <form action="{% url 'blog:delete' post.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger" value="Delete">Delete</button>
+                  </form>
+                  </div>
               </div>
               <hr>
           </div>

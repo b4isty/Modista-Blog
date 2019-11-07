@@ -1,6 +1,8 @@
-from django.urls import path
-from .views import SignUpView, Login
 from django.contrib.auth.views import LogoutView
+from django.urls import path
+
+from .views import SignUpView, Login
+
 app_name = 'users'
 
 urlpatterns = [

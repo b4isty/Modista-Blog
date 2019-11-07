@@ -34,4 +34,73 @@
 
 
     </body>
+    <script type="text/javascript">
+    var token="";
+    function getCookie(name) {
+        var value = "; " + document.cookie;
+        var parts = value.split("; " + name + "=");
+        if (parts.length == 2) return parts.pop().split(";").shift();
+    }
+
+    $('#suggestions').hide();
+
+    $(document).ready(function(){
+        $('#search').on('keyup',function(e){
+            var search=e.target.value;
+            console.log(search);
+            token=getCookie('token');
+            if(search.length>1){
+               callAjax(search, function(data){
+                 renderSuggestions(data);
+               });
+            }
+            else if(search.length==0){
+                $('#suggestions').empty();
+                $('#suggestions').hide();
+            }
+        });
+    });
+    // while choosing an suggestion
+    function choose(search){
+        $('#search').val(search);
+        $('#suggestions').empty();
+        $('#suggestions').hide();
+    }
+
+    // rendering suggestion in UI
+    function renderSuggestions(data){
+        $('#suggestions').empty();
+        $('#suggestions').show();
+        data.forEach(function(line,index){
+            //console.log(line,index);
+            $('#suggestions').append("<div onClick=\"choose('"+line.title+"');\">"+line.title+"</div>");
+        });
+    }
+
+    function callAjax(search, resp){
+        $.ajax({
+             url: "/blog/search/",
+             data: { q: search },
+             type: "GET",
+             headers: {
+                'Authorization': 'JWT '+token
+             },
+             success: function(data, textStatus, request) {
+                 // on success response
+                resp(data);
+             },
+             error: function(request, textStatus, errorThrown){
+                 // if there is response error
+                if(request.status==401){
+                    var cnf=confirm("Your session expired. Do you want to logout ?");
+                    if(cnf){
+                        document.location.href="/logout/";
+                    }
+                }
+                // console.log(request.status);
+             }
+          });
+    }
+    </script>
+
 </html>
